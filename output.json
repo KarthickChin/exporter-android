@@ -2,7 +2,7 @@
     "blueprints": [
         {
             "invoke": "colors.pr",
-            "write_to": "uicomponents/src/main/java/com/mindvalley/uicomponents/Color.kt"
+            "write_to": "uicomponents/src/main/java/com/mindvalley/uicomponents/ExportedColor.kt"
         },
         {
             "invoke": "dimens.pr",
