@@ -2,6 +2,10 @@
     "blueprints": [
         {
             "invoke": "colors.pr",
+            "write_to": "res/values/exported_colors.xml"
+        },
+        {
+            "invoke": "compose_colors.pr",
             "write_to": "uicomponents/src/main/java/com/mindvalley/uicomponents/ExportedColor.kt"
         },
         {
