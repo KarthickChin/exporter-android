@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.luminance
         {{ indentMultilineText(colorToken.description, "        ") }} 
     -->
     {[/]}
-    private val "{[ inject "export_snakecased_token_name" context fullTokenName /]}" = Color({[ inject "export_compose_color_value" context colorToken.value /]})
+    private val "{[ inject export_camel_case_token_name context fullTokenName /]}" = Color({[ inject "export_compose_color_value" context colorToken.value /]})
     {[/]}
 
 
