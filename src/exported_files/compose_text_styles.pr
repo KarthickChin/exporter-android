@@ -8,7 +8,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-
 {[ let fontsMap = {} /]}
 
 {[ const brand = ds.currentBrand() /]}
@@ -26,11 +25,6 @@ import androidx.compose.ui.unit.sp
         {{ indentMultilineText(typographyToken.description, "        ") }} 
     -->
     {[/]}
-    {[ let subfamilyName = font.subfamily.snakecased()  /]}
-    
-        {[ const letterSpacing = typographyToken.value.letterSpacing /]}
-        {[ if letterSpacing ]}
-        {[/]}
         {[ const font = typographyToken.value.font /]}
         {[ if font ]}
           {[ let familyName = font.family.snakecased()  /]}
@@ -44,18 +38,9 @@ fontWeight = FontWeight(subfamilyName),
 color = Variables.SetGreyPotent,
 letterSpacing = 0.4.sp,
 )
-          {[ let fontStyles = [] /]}
-          {[ if ds.isFontItalic(font) ]}
-            {[ fontStyles = arrayConcat(fontStyles, "italic") /]}
-          {[/]}
-          {[ if ds.isFontItalic(font) ]}
-            {[ fontStyles = arrayConcat(fontStyles, "bold") /]}
-          {[/]}
-          {[ let textStyle = arrayJoin(fontStyles, "|") /]}
         {[/]}
+    </style>
   {[/]}
 
 {[/]}
-
-</resources>
 {[ inject "fonts" context fontsMap /]}
