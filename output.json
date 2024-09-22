@@ -9,6 +9,10 @@
             "write_to": "uicomponents/src/main/java/com/mindvalley/uicomponents/ExportedColor.kt"
         },
         {
+            "invoke": "compose_fonts.pr",
+            "write_to": "uicomponents/src/main/java/com/mindvalley/uicomponents/ExportedTextStyles.kt"
+        },
+        {
             "invoke": "dimens.pr",
             "write_to": "res/values/exported_dimens.xml"
         },
