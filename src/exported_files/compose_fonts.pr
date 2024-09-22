@@ -1,0 +1,61 @@
+package com.mindvalley.uicomponents
+
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+
+
+{[ let fontsMap = {} /]}
+
+{[ const brand = ds.currentBrand() /]}
+{[ const typographyTokensTree = ds.tokenGroupTreeByType("Typography", brand.id) /]}
+
+{[ traverse typographyTokensTree property subgroups into typographyTokenGroup ]}
+  {[ let fullTokenGroupPath = createFullTokenGroupPath(typographyTokenGroup) /]}
+  {[ const typographyTokenInGroups = ds.tokensByGroupId(typographyTokenGroup.id) /]}
+  {[ for typographyToken in typographyTokenInGroups ]}
+    {[ const fullTokenPath = arrayConcat(fullTokenGroupPath, typographyToken.name) /]}
+    {[ const fullTokenName = arrayJoin(fullTokenPath, " ") /]}
+    
+    {[ if (typographyToken.description && typographyToken.description !== "") ]}
+    <!-- 
+        {{ indentMultilineText(typographyToken.description, "        ") }} 
+    -->
+    {[/]}
+    {[ let subfamilyName = font.subfamily.snakecased()  /]}
+    
+        {[ const letterSpacing = typographyToken.value.letterSpacing /]}
+        {[ if letterSpacing ]}
+        {[/]}
+        {[ const font = typographyToken.value.font /]}
+        {[ if font ]}
+          {[ let familyName = font.family.snakecased()  /]}
+          {[ let subfamilyName = font.subfamily.snakecased()  /]}
+          {[ let fontName = familyName.suffixed("_").suffixed(subfamilyName) /]}
+          {[ fontsMap = fontsMap.add(fontName, font) /]}
+          val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
+fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
+fontFamily = FontFamily(Font(R.font.familyName)),
+fontWeight = FontWeight(subfamilyName),
+color = Variables.SetGreyPotent,
+letterSpacing = 0.4.sp,
+)
+          {[ let fontStyles = [] /]}
+          {[ if ds.isFontItalic(font) ]}
+            {[ fontStyles = arrayConcat(fontStyles, "italic") /]}
+          {[/]}
+          {[ if ds.isFontItalic(font) ]}
+            {[ fontStyles = arrayConcat(fontStyles, "bold") /]}
+          {[/]}
+          {[ let textStyle = arrayJoin(fontStyles, "|") /]}
+        {[/]}
+  {[/]}
+
+{[/]}
+
+</resources>
+{[ inject "fonts" context fontsMap /]}
