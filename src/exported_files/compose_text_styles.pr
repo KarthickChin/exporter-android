@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.sp
 fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
 fontFamily = FontFamily(Font(R.font.familyName)),
 fontWeight = FontWeight(subfamilyName),
-color = Variables.SetGreyPotent,
 letterSpacing = 0.4.sp,
 )
         {[/]}
