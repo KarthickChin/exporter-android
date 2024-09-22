@@ -21,9 +21,6 @@ import androidx.compose.ui.unit.sp
     {[ const fullTokenName = arrayJoin(fullTokenPath, " ") /]}
     
     {[ if (typographyToken.description && typographyToken.description !== "") ]}
-    <!-- 
-        {{ indentMultilineText(typographyToken.description, "        ") }} 
-    -->
     {[/]}
         {[ const font = typographyToken.value.font /]}
         {[ if font ]}
@@ -39,7 +36,6 @@ color = Variables.SetGreyPotent,
 letterSpacing = 0.4.sp,
 )
         {[/]}
-    </style>
   {[/]}
 
 {[/]}
