@@ -25,11 +25,14 @@ import androidx.compose.ui.unit.sp
         {{ indentMultilineText(typographyToken.description, "        ") }} 
     -->
     {[/]}
-        val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle()
-        <item name="android:textSize">{{ typographyToken.value.fontSize.measure }}sp</item>
+        val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
+        fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
+        fontWeight = FontWeight.Medium,
+        fontStyle = FontStyle.Normal,
+        letterSpacing = 1.sp,
+        )
         {[ const letterSpacing = typographyToken.value.letterSpacing /]}
         {[ if letterSpacing ]}
-        <item name="android:letterSpacing">{{ letterSpacing.measure }}</item>
         {[/]}
         {[ const font = typographyToken.value.font /]}
         {[ if font ]}
