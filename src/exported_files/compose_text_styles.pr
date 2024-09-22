@@ -21,21 +21,37 @@ import androidx.compose.ui.unit.sp
     {[ const fullTokenName = arrayJoin(fullTokenPath, " ") /]}
     
     {[ if (typographyToken.description && typographyToken.description !== "") ]}
+    <!-- 
+        {{ indentMultilineText(typographyToken.description, "        ") }} 
+    -->
     {[/]}
+    val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle()
+        <item name="android:textSize">{{ typographyToken.value.fontSize.measure }}sp</item>
+        {[ const letterSpacing = typographyToken.value.letterSpacing /]}
+        {[ if letterSpacing ]}
+        <item name="android:letterSpacing">{{ letterSpacing.measure }}</item>
+        {[/]}
         {[ const font = typographyToken.value.font /]}
         {[ if font ]}
           {[ let familyName = font.family.snakecased()  /]}
           {[ let subfamilyName = font.subfamily.snakecased()  /]}
           {[ let fontName = familyName.suffixed("_").suffixed(subfamilyName) /]}
           {[ fontsMap = fontsMap.add(fontName, font) /]}
-          val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
-fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
-fontFamily = FontFamily(Font(R.font.familyName)),
-fontWeight = FontWeight(subfamilyName),
-letterSpacing = 0.4.sp,
-)
+        <item name="android:fontFamily">@font/{{ fontName }}</item>
+          {[ let fontStyles = [] /]}
+          {[ if ds.isFontItalic(font) ]}
+            {[ fontStyles = arrayConcat(fontStyles, "italic") /]}
+          {[/]}
+          {[ if ds.isFontItalic(font) ]}
+            {[ fontStyles = arrayConcat(fontStyles, "bold") /]}
+          {[/]}
+          {[ let textStyle = arrayJoin(fontStyles, "|") /]}
+        <item name="android:textStyle">{{ (textStyle.count() === 0) ? "normal" : textStyle}}</item>
         {[/]}
+    </style>
   {[/]}
 
 {[/]}
+
+</resources>
 {[ inject "fonts" context fontsMap /]}
