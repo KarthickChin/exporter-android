@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
         {{ indentMultilineText(typographyToken.description, "        ") }} 
     -->
     {[/]}
-    val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle()
+    <style name="{[ inject "export_camelcased_token_name" context fullTokenName /]}">
         <item name="android:textSize">{{ typographyToken.value.fontSize.measure }}sp</item>
         {[ const letterSpacing = typographyToken.value.letterSpacing /]}
         {[ if letterSpacing ]}
@@ -52,6 +52,3 @@ import androidx.compose.ui.unit.sp
   {[/]}
 
 {[/]}
-
-</resources>
-{[ inject "fonts" context fontsMap /]}
