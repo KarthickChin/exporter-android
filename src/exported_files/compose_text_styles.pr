@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
           {[ let fontName = familyName.suffixed("_").suffixed(subfamilyName) /]}
           val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
     fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
-    fontWeight = FontWeight(subfamilyName),
+    fontWeight = FontWeight({{ subfamilyName }}),
     fontStyle = FontStyle.Normal
   )
           {[ fontsMap = fontsMap.add(fontName, font) /]}
