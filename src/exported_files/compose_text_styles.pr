@@ -8,8 +8,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-{[ let fontsMap = {} /]}
-
 {[ const brand = ds.currentBrand() /]}
 {[ const typographyTokensTree = ds.tokenGroupTreeByType("Typography", brand.id) /]}
 
@@ -42,13 +40,12 @@ import androidx.compose.ui.unit.sp
             {[ fontStyles = arrayConcat(fontStyles, "bold") /]}
           {[/]}
           {[ let textStyle = arrayJoin(fontStyles, "|") /]}
-          val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
-    fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
-    fontWeight = FontWeight({{ subfamilyName }}),
-    fontStyle = {{ (textStyle.count() === 0) ? "FontStyle.Normal" : "FontStyle.Italic"}} FontStyle.Normal
-  )
+val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
+      fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
+      fontWeight = FontWeight({{ subfamilyName }}),
+      fontStyle = {{ (textStyle.count() === 0) ? "FontStyle.Normal" : "FontStyle.Italic"}} FontStyle.Normal
+    )
         {[/]}
-    </style>
   {[/]}
 
 {[/]}
