@@ -25,12 +25,7 @@ import androidx.compose.ui.unit.sp
         {{ indentMultilineText(typographyToken.description, "        ") }} 
     -->
     {[/]}
-        val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
-        fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
-        fontWeight = FontWeight.Medium,
-        fontStyle = FontStyle.Normal,
-        letterSpacing = 1.sp,
-        )
+  
         {[ const letterSpacing = typographyToken.value.letterSpacing /]}
         {[ if letterSpacing ]}
         {[/]}
@@ -39,6 +34,11 @@ import androidx.compose.ui.unit.sp
           {[ let familyName = font.family.snakecased()  /]}
           {[ let subfamilyName = font.subfamily.snakecased()  /]}
           {[ let fontName = familyName.suffixed("_").suffixed(subfamilyName) /]}
+          val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
+    fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
+    fontWeight = FontWeight(subfamilyName),
+    fontStyle = FontStyle.Normal
+  )
           {[ fontsMap = fontsMap.add(fontName, font) /]}
         <item name="android:fontFamily">@font/{{ fontName }}</item>
           {[ let fontStyles = [] /]}
