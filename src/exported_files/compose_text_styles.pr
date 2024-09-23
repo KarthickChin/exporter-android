@@ -34,13 +34,6 @@ import androidx.compose.ui.unit.sp
           {[ let familyName = font.family.snakecased()  /]}
           {[ let subfamilyName = font.subfamily.snakecased()  /]}
           {[ let fontName = familyName.suffixed("_").suffixed(subfamilyName) /]}
-          val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
-    fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
-    fontWeight = FontWeight({{ subfamilyName }}),
-    fontStyle = FontStyle.Normal
-  )
-          {[ fontsMap = fontsMap.add(fontName, font) /]}
-        <item name="android:fontFamily">@font/{{ fontName }}</item>
           {[ let fontStyles = [] /]}
           {[ if ds.isFontItalic(font) ]}
             {[ fontStyles = arrayConcat(fontStyles, "italic") /]}
@@ -49,7 +42,11 @@ import androidx.compose.ui.unit.sp
             {[ fontStyles = arrayConcat(fontStyles, "bold") /]}
           {[/]}
           {[ let textStyle = arrayJoin(fontStyles, "|") /]}
-        <item name="android:textStyle">{{ (textStyle.count() === 0) ? "normal" : textStyle}}</item>
+          val {[ inject "export_camelcased_token_name" context fullTokenName /]} = TextStyle(
+    fontSize = {{ typographyToken.value.fontSize.measure }}.sp,
+    fontWeight = FontWeight({{ subfamilyName }}),
+    fontStyle = {{ (textStyle.count() === 0) ? FontStyle.Normal : FontStyle.Italic}} FontStyle.Normal
+  )
         {[/]}
     </style>
   {[/]}
