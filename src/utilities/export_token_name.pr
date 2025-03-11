@@ -1,4 +1,4 @@
 {[ const tokenName = context /]}
 {[ const firstChar = tokenName.substring(0, 1) /]}
-{[ const isDigit = isDigit(firstChar) /]}
+{[ const isDigit = false /]}
 {[ if isDigit ]}_{[/]}{{ tokenName }}
