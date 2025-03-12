@@ -57,3 +57,15 @@ object DarkColors {
 {[/]}
 {[/]}
 }
+
+object UnThemedColors {
+{* Generete dark colors as static computed variables *}
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if !isColorThemed(colorName) ]}
+   const val {[ inject "export_camelcased_token_name" context darkColor.name /]} = Color({[ inject "export_compose_color_value" context darkColor.color /]})
+{[/]}
+{[/]}
+{[/]}
+}
