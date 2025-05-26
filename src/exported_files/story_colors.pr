@@ -1,0 +1,58 @@
+package com.mindvalley.component.demo.screens.colors
+
+import androidx.compose.ui.graphics.Color
+
+val appColors = mutableListOf<ColorData>().apply {
+    {[ const brands = ds.allBrands() /]}
+{[ for brand in brands ]}
+{[ const themesData = ds.allThemes(brand.id) /]}
+{[ const colorTokensTree = ds.tokenGroupTreeByType("Color", brand.id) /]}
+{{ groupTokensByName(themesData, brand.name); }}
+{[/]}
+{[ const groupedTokenData = getColorMap() /]}
+{[ const colorNames = groupedTokenData.keys() /]}
+{* Generete light colors as static computed variables *}
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let lightColor = getColorsFor(colorName, "Light") /]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if isColorThemed(colorName) ]}
+    add(
+        ColorData(
+        color = Color({[ inject "export_compose_color_value" context lightColor.color /]}),
+        name = "{[ inject "export_camelcased_token_name" context lightColor.name /]}",
+        code = "#{[ inject "export_compose_color_value" context lightColor.color /]}"
+    ))
+{[/]}
+{[/]}
+{[/]}
+
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if isColorThemed(colorName) ]}
+add(
+        ColorData(
+        color = Color({[ inject "export_compose_color_value" context darkColor.color /]}),
+        name = "{[ inject "export_camelcased_token_name" context darkColor.name /]}",
+        code = "#{[ inject "export_compose_color_value" context darkColor.color /]}"
+    ))
+{[/]}
+{[/]}
+{[/]}
+
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if !isColorThemed(colorName) ]}
+    add(
+        ColorData(
+        color = Color({[ inject "export_compose_color_value" context darkColor.color /]}),
+        name = "{[ inject "export_camelcased_token_name" context darkColor.name /]}",
+        code = "#{[ inject "export_compose_color_value" context darkColor.color /]}"
+    ))
+{[/]}
+{[/]}
+{[/]}
+
+}
