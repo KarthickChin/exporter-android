@@ -5,6 +5,10 @@
             "write_to": "uicomponents/src/main/java/com/mindvalley/uicomponents/ExportedColor.kt"
         },
         {
+            "invoke": "story_colors.pr",
+            "write_to": "app/src/main/java/com/mindvalley/component/demo/screens/colors/AppColors.kt"
+        },
+        {
             "invoke": "typography.pr",
             "write_to": "app/src/main/java/com/mindvalley/uicomponents/Typo.kt"
         }
