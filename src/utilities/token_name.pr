@@ -1,2 +1,2 @@
-{[ const name = context.name /]}
-{{ name.camelcased(false)}}
+{[ const name = context /]}
+{{ name}}

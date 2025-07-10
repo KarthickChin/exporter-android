@@ -1,0 +1,32 @@
+package com.mindvalley.uicomponents.compose
+
+import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
+
+
+{[ const brands = ds.allBrands() /]}
+{[ for brand in brands ]}
+{[ const themesData = ds.allThemes(brand.id) /]}
+{[ const colorTokensTree = ds.tokenGroupTreeByType("Typography", brand.id) /]}
+{[ const typoData = groupTypography(themesData); /]}
+{[/]}
+{[ const typos = getTypoMap() /]}
+{[ for typo in typos ]}
+
+val Typography.{[ inject "token_name" context typo.name /]}: TextStyle
+@Composable
+    get() =
+        TextStyle(
+            fontSize = {[ inject "token_name" context typo.fontSize /]},
+            letterSpacing = {[ inject "token_name" context typo.letterSpacing /]},
+            fontFamily = {[ inject "token_name" context typo.fontFamily /]},
+            fontWeight = {[ inject "token_name" context typo.fontWeight /]},
+            fontStyle = FontStyle.Normal,
+            lineHeight = {[ inject "token_name" context typo.lineHeight /]}
+)
+{[/]}

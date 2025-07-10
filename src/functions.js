@@ -91,6 +91,30 @@ function makeColorStyle(token) {
   return matchedOption ? matchedOption.name : null;
 }
 
+function makeTypoStyle(token) {
+  if (!token || !token.propertyValues || !token.properties) {
+    return null;
+  }
+  
+  const collectionId = token.propertyValues.collection;
+  if (!collectionId) {
+    return null;
+  }
+  
+  // Find the "Collection" property in the properties array
+  const collectionProperty = token.properties.find(prop => prop.codeName === "collection");
+  if (!collectionProperty || !collectionProperty.options) {
+    return null;
+  }
+  
+  // Check if the collection ID matches "Color Styles" or "Eve Color Styles"
+  const matchedOption = collectionProperty.options.find(option => 
+    option.id === collectionId && (option.name === ColorStylesEnum.COLOR_STYLES || option.name === ColorStylesEnum.EVE_COLOR_STYLES)
+  );
+
+  return matchedOption ? matchedOption.name : null;
+}
+
 function objectToPrettyJson(object) {
     const seen = new WeakSet();
     return JSON.stringify(object, (key, value) => {
@@ -134,6 +158,21 @@ function groupTokensByName(themeData, brand) {
   }
   // Preprocess all the colors that only have a single theme to speed up looking them up
   singleThemedColors = getUnThemedColors();
+  return "";
+}
+
+function groupTypography(themeData) {
+  for (const themeKey in themeData) {
+    const theme = themeData[themeKey];
+    if (theme.name.trim() === "Mobile") {
+      const overriddenTokens = theme.overriddenTokens;
+      for (const typoToken in overriddenTokens) {
+        const typo = overriddenTokens[typoToken];
+        TypoObject.fromToken(typo);
+      }
+    }
+
+  }
   return "";
 }
 
@@ -229,6 +268,60 @@ function makeColorName(colorObject) {
   }
 }
 
+let typoMap = [];
+
+class TypoObject {
+  constructor(name, fontFamily, fontSize, letterSpacing, fontWeight, lineHeight) {
+    this.fontFamily = fontFamily;
+    this.name = name;
+    this.fontSize = fontSize;
+    this.letterSpacing = letterSpacing;
+    this.fontWeight = fontWeight;
+    this.lineHeight = lineHeight;
+  }
+
+  static fromToken(typo) {
+    if (typo.origin === null) {
+      const data = makeTypoName(typo)
+      typoMap.push(data);
+    }
+
+    return null;
+  }
+}
+
+function getTypoMap() {
+  return typoMap;
+}
+
+function makeTypoName(typo) {
+  try {
+    const originalName = typo.name.replace(/ /g,'')
+    const fontFamily = "sharpGFontFamily"
+    let fontWeight = "FontWeight.Normal"
+    if (typo.value.font.family.includes("Cyr Semibold")) {
+      fontWeight = "FontWeight.SemiBold"
+    } else if (typo.value.font.family.includes("Cyr Medium")) {
+      fontWeight = "FontWeight.Medium"
+    } else if (typo.value.font.family.includes("Cyr Book") && typo.value.font.subfamily === "19") {
+      fontWeight = "FontWeight.Light"
+    } else if (typo.value.font.family.includes("Cyr Book")) {
+      fontWeight = "FontWeight.Normal"
+    }
+    const name = originalName[0].toLowerCase()+ originalName.slice(1);
+    const letterSpacing = typo.value.letterSpacing.measure+".sp";
+    const fontSize = typo.value.fontSize.measure+".sp";
+    let lineHeight = "TextUnit.Unspecified"
+    if (typo.value.lineHeight != null) {
+      lineHeight = typo.value.lineHeight.measure+".sp";
+    }
+    return new TypoObject(name, fontFamily, fontSize, letterSpacing, fontWeight, lineHeight)
+  } catch (e) {
+    console.log("Error processing typography object:", e.message);
+    return null;
+  }
+}
+
 /**
  * Returns an array containing both the tokenIds and childrenIds of a token group.
  *
@@ -316,10 +409,13 @@ function getCurrentDate() {
 
 Pulsar.registerFunction("isColorStylesToken", isColorStylesToken)
 Pulsar.registerFunction("groupTokensByName", groupTokensByName)
+Pulsar.registerFunction("groupTypography", groupTypography)
 Pulsar.registerFunction("getColorsFor", getColorsFor)
 Pulsar.registerFunction("isColorThemed", isColorThemed)
 Pulsar.registerFunction("getColorMap", getColorMap)
 Pulsar.registerFunction("isColorAllowed", isColorAllowed)
 Pulsar.registerFunction("makeColorName", makeColorName)
+Pulsar.registerFunction("makeTypoName", makeTypoName)
+Pulsar.registerFunction("getTypoMap", getTypoMap)
 Pulsar.registerFunction("getNameForUnthemedColor", getNameForUnthemedColor)
 Pulsar.registerFunction("getCurrentDate", getCurrentDate)
