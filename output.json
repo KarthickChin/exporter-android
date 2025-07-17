@@ -10,7 +10,7 @@
         },
         {
             "invoke": "typography.pr",
-            "write_to": "app/src/main/java/com/mindvalley/uicomponents/Typography.kt"
+            "write_to": "app/src/main/java/com/mindvalley/uicomponents/compose/Typography.kt"
         }
     ]
 }
