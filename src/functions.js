@@ -162,13 +162,14 @@ function groupTokensByName(themeData, brand) {
 }
 
 function groupTypography(themeData) {
+
   for (const themeKey in themeData) {
     const theme = themeData[themeKey];
-    if (theme.name.trim() === "Mobile") {
+    if (theme.name.trim() === "Mobile" || theme.name.trim() === "Tablet") {
       const overriddenTokens = theme.overriddenTokens;
       for (const typoToken in overriddenTokens) {
         const typo = overriddenTokens[typoToken];
-        TypoObject.fromToken(typo);
+        TypoObject.fromToken(typo, theme.name.trim());
       }
     }
 
@@ -269,6 +270,11 @@ function makeColorName(colorObject) {
 }
 
 let typoMap = [];
+let typoTabletMap = {};
+let typoMobileMap = {};
+
+let keys = new Set();
+const userMap = new Map();
 
 class TypoObject {
   constructor(name, fontFamily, fontSize, letterSpacing, fontWeight, lineHeight) {
@@ -280,18 +286,39 @@ class TypoObject {
     this.lineHeight = lineHeight;
   }
 
-  static fromToken(typo) {
+
+  static fromToken(typo, source) {
     if (typo.origin === null) {
       const data = makeTypoName(typo)
+      keys.add(data.name);
       typoMap.push(data);
+      if (source == "Mobile") {
+        typoMobileMap[data.name] = data
+      }
+      if (source == "Tablet") {
+        typoTabletMap[data.name] = data
+      }
     }
-
     return null;
   }
 }
 
+function getTypoKeys() {
+  return Array.from(keys);
+}
+
 function getTypoMap() {
   return typoMap;
+}
+
+function getMobileTypo(key) {
+  const mobileFont = typoMobileMap[key];
+  return mobileFont;
+}
+
+function getTabletTypo(key) {
+  const tabletFont = typoTabletMap[key];
+  return tabletFont;
 }
 
 function makeTypoName(typo) {
@@ -419,3 +446,6 @@ Pulsar.registerFunction("makeTypoName", makeTypoName)
 Pulsar.registerFunction("getTypoMap", getTypoMap)
 Pulsar.registerFunction("getNameForUnthemedColor", getNameForUnthemedColor)
 Pulsar.registerFunction("getCurrentDate", getCurrentDate)
+Pulsar.registerFunction("getMobileTypo", getMobileTypo)
+Pulsar.registerFunction("getTabletTypo", getTabletTypo)
+Pulsar.registerFunction("getTypoKeys", getTypoKeys)
