@@ -35,9 +35,7 @@ val Typography.{[ inject "token_name" context mobileTypo.name /]}: TextStyle
     
 val Typography.{[ inject "token_name" context mobileTypo.name /]}: TextStyle
 @Composable
-    get() =
-    if (isCompactWidth())
-        TextStyle(
+    get() = TextStyle(
             fontSize = {[ inject "token_name" context mobileTypo.fontSize /]},
             letterSpacing = {[ inject "token_name" context mobileTypo.letterSpacing /]},
             fontFamily = {[ inject "token_name" context mobileTypo.fontFamily /]},
@@ -45,7 +43,7 @@ val Typography.{[ inject "token_name" context mobileTypo.name /]}: TextStyle
             fontStyle = FontStyle.Normal,
             lineHeight = {[ inject "token_name" context mobileTypo.lineHeight /]}
 )
-    else
+    {* else
         TextStyle(
             fontSize = {[ inject "token_name" context tabletTypo.fontSize /]},
             letterSpacing = {[ inject "token_name" context tabletTypo.letterSpacing /]},
@@ -53,6 +51,6 @@ val Typography.{[ inject "token_name" context mobileTypo.name /]}: TextStyle
             fontWeight = {[ inject "token_name" context tabletTypo.fontWeight /]},
             fontStyle = FontStyle.Normal,
             lineHeight = {[ inject "token_name" context tabletTypo.lineHeight /]}
-)
+) *}
     {[/]}
 {[/]}
