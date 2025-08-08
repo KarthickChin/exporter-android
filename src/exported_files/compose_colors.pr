@@ -1,5 +1,8 @@
 package com.mindvalley.uicomponents
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 {* {[ const brand = ds.currentBrand() /]}
 {[ const colorTokensTree = ds.tokenGroupTreeByType("Color", brand.id) /]}
@@ -29,6 +32,23 @@ import androidx.compose.ui.graphics.Color
 {[ const groupedTokenData = getColorMap() /]}
 {[ const colorNames = groupedTokenData.keys() /]}
 {* Generete light colors as static computed variables *}
+
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let lightColor = getColorsFor(colorName, "Light") /]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if isColorThemed(colorName) ]}
+
+val ColorScheme.{[ inject "export_camelcased_token_name" context colorName /]}      
+    @Composable get() = if (isSystemInDarkTheme()) {
+        Color({[ inject "export_compose_color_value" context darkColor.color /]})
+    } else {
+        Color({[ inject "export_compose_color_value" context lightColor.color /]})
+    }
+{[/]}
+{[/]}
+{[/]}
+
 object LightColors {
 {[ for colorName in colorNames ]}
 {[ if isColorStylesToken(colorName) ]}
