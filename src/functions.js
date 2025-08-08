@@ -45,6 +45,8 @@ class ColorObject {
       let colorName = name;
       if (name.includes('GradientBase')) {
         colorName = name.replace('GradientBase', colorStyle === ColorStylesEnum.EVE_COLOR_STYLES ? brand + 'GB' : "MV" + 'Gb');
+      } else if (name.includes('Alpha')) {
+        colorName = colorStyle === ColorStylesEnum.EVE_COLOR_STYLES ? brand + color.parent.name + color.name : "mv" + color.parent.name + color.name;
       } else if (colorStyle === ColorStylesEnum.EVE_COLOR_STYLES) {
         colorName = brand + color.name;
       } else if (colorStyle === ColorStylesEnum.COLOR_STYLES) {
