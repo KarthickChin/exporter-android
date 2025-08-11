@@ -1,6 +1,5 @@
 package com.mindvalley.uicomponents
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -40,7 +39,7 @@ import androidx.compose.ui.graphics.Color
 {[ if isColorThemed(colorName) ]}
 
 val ColorScheme.{[ inject "export_camelcased_token_name" context colorName /]}      
-    @Composable get() = if (isSystemInDarkTheme()) {
+    @Composable get() = if (LocalIsDarkTheme.current) {
         Color({[ inject "export_compose_color_value" context darkColor.color /]})
     } else {
         Color({[ inject "export_compose_color_value" context lightColor.color /]})
