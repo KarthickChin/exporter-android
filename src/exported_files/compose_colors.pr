@@ -38,7 +38,7 @@ import androidx.compose.ui.graphics.Color
 {[ let darkColor = getColorsFor(colorName, "Dark") /]}
 {[ if isColorThemed(colorName) ]}
 
-val ColorScheme.{[ inject "export_camelcased_token_name" context colorName /]}      
+val ColorScheme.{[ inject "export_lowercase_token_name" context colorName /]}      
     @Composable get() = if (LocalIsDarkTheme.current) {
         Color({[ inject "export_compose_color_value" context darkColor.color /]})
     } else {

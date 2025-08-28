@@ -1,0 +1,3 @@
+{[ const tokenName = context.camelcased(true) /]}
+{[ const lowercased = tokenName.toString().lowercased() /]}
+{[ inject "export_token_name" context lowercased /]}
