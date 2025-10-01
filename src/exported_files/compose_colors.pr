@@ -54,7 +54,7 @@ object LightColors {
 {[ let lightColor = getColorsFor(colorName, "Light") /]}
 {[ let darkColor = getColorsFor(colorName, "Dark") /]}
 {[ if isColorThemed(colorName) ]}
-    val {[ inject "export_camelcased_token_name" context lightColor.name /]} = Color({[ inject "export_compose_color_value" context lightColor.color /]})
+    val {[ inject "export_uppercased_token_name" context lightColor.name /]} = Color({[ inject "export_compose_color_value" context lightColor.color /]})
 {[/]}
 {[/]}
 {[/]}
@@ -67,7 +67,7 @@ object DarkColors {
 {[ if isColorStylesToken(colorName) ]}
 {[ let darkColor = getColorsFor(colorName, "Dark") /]}
 {[ if isColorThemed(colorName) ]}
-   val {[ inject "export_camelcased_token_name" context darkColor.name /]} = Color({[ inject "export_compose_color_value" context darkColor.color /]})
+   val {[ inject "export_uppercased_token_name" context darkColor.name /]} = Color({[ inject "export_compose_color_value" context darkColor.color /]})
 {[/]}
 {[/]}
 {[/]}
@@ -79,7 +79,7 @@ object UnThemedColors {
 {[ if isColorStylesToken(colorName) ]}
 {[ let darkColor = getColorsFor(colorName, "Dark") /]}
 {[ if !isColorThemed(colorName) ]}
-   val {[ inject "export_camelcased_token_name" context darkColor.name /]} = Color({[ inject "export_compose_color_value" context darkColor.color /]})
+   val {[ inject "export_uppercased_token_name" context darkColor.name /]} = Color({[ inject "export_compose_color_value" context darkColor.color /]})
 {[/]}
 {[/]}
 {[/]}
