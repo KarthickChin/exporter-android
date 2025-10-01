@@ -1,2 +1,3 @@
-{[ const camelcased = context.camelcased(true) /]}
+{[ const tokenName = context /]}
+{[ const camelcased = tokenName.camelcased(false) /]}
 {[ inject "export_token_name" context camelcased /]}
