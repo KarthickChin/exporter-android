@@ -1,47 +1,5 @@
 [
     {
-      "key": "composeColorsPath",
-      "type": "string",
-      "default": "./",
-      "title": "Compose Colors Path",
-      "description": "Output directory for ExportedColor.kt"
-    },
-    {
-      "key": "composeColorsFileName",
-      "type": "string",
-      "default": "ExportedColor.kt",
-      "title": "Compose Colors File Name",
-      "description": "Filename for the generated Compose color definitions"
-    },
-    {
-      "key": "storyColorsPath",
-      "type": "string",
-      "default": "./",
-      "title": "Story Colors Path",
-      "description": "Output directory for AppColors.kt"
-    },
-    {
-      "key": "storyColorsFileName",
-      "type": "string",
-      "default": "AppColors.kt",
-      "title": "Story Colors File Name",
-      "description": "Filename for the generated Storybook color data"
-    },
-    {
-      "key": "typographyPath",
-      "type": "string",
-      "default": "./",
-      "title": "Typography Path",
-      "description": "Output directory for Typography.kt"
-    },
-    {
-      "key": "typographyFileName",
-      "type": "string",
-      "default": "Typography.kt",
-      "title": "Typography File Name",
-      "description": "Filename for the generated typography definitions"
-    },
-    {
       "key": "colorPackageName",
       "type": "string",
       "default": "com.mindvalley.uicomponents",
