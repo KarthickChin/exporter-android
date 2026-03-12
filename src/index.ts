@@ -147,8 +147,8 @@ Pulsar.export(
 
     outputFiles.push(
       FileHelper.createTextFile({
-        relativePath: exportConfiguration.composeColorsPath ?? "./",
-        fileName: exportConfiguration.composeColorsFileName ?? "ExportedColor.kt",
+        relativePath: "uicomponents/src/main/java/com/mindvalley/uicomponents/",
+        fileName: "ExportedColor.kt",
         content: generateComposeColors(
           colorMap,
           exportConfiguration.colorPackageName ?? "com.mindvalley.uicomponents"
@@ -159,8 +159,8 @@ Pulsar.export(
     if (exportConfiguration.generateStoryColors !== false) {
       outputFiles.push(
         FileHelper.createTextFile({
-          relativePath: exportConfiguration.storyColorsPath ?? "./",
-          fileName: exportConfiguration.storyColorsFileName ?? "AppColors.kt",
+          relativePath: "app/src/main/java/com/mindvalley/component/demo/screens/colors/",
+          fileName: "AppColors.kt",
           content: generateStoryColors(
             colorMap,
             exportConfiguration.storyColorPackageName ??
@@ -172,8 +172,8 @@ Pulsar.export(
 
     outputFiles.push(
       FileHelper.createTextFile({
-        relativePath: exportConfiguration.typographyPath ?? "./",
-        fileName: exportConfiguration.typographyFileName ?? "Typography.kt",
+        relativePath: "uicomponents/src/main/java/com/mindvalley/uicomponents/compose/",
+        fileName: "Typography.kt",
         content: generateTypography(
           typoResult.keys,
           typoResult.mobileMap,
