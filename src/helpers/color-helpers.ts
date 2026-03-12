@@ -21,16 +21,6 @@ export interface ColorData {
 
 export type GroupedColorMap = Record<string, ColorData[]>
 
-const IOS_SYSTEM_COLORS = new Set([
-  "blue", "brown", "gray", "green", "orange", "pink", "purple",
-  "red", "yellow", "white", "black", "cyan", "magenta",
-  "darkgray", "lightgray", "indigo", "teal", "clear",
-])
-
-function isIOSSystemColor(name: string): boolean {
-  return IOS_SYSTEM_COLORS.has(name.toLowerCase())
-}
-
 function colorValueToHex8(token: ColorToken): string {
   const { r, g, b } = token.value.color
   const opacity = token.value.opacity?.measure ?? 1
