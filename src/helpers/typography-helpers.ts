@@ -37,15 +37,22 @@ function resolveTypographyData(
       )
       .join("") || "unnamed"
 
-    const fontFamily = fontFamilyVariable
+    // Use the token's fontFamily from Supernova (support .text, .value, or string), converted to a Kotlin variable name.
+    const familyText = (
+      (value.fontFamily as { text?: string; value?: string } | undefined)?.text ??
+      (value.fontFamily as { text?: string; value?: string } | undefined)?.value ??
+      (typeof value.fontFamily === "string" ? value.fontFamily : "")
+    ).trim()
+    const fontFamily = familyText
+      ? fontFamilyTextToVariableName(familyText)
+      : fontFamilyVariable
 
     let fontWeight = "FontWeight.Normal"
-    const familyText = value.fontFamily.text
     if (familyText.includes("Cyr Semibold")) {
       fontWeight = "FontWeight.SemiBold"
     } else if (familyText.includes("Cyr Medium")) {
       fontWeight = "FontWeight.Medium"
-    } else if (familyText.includes("Cyr Book") && value.fontWeight.text === "19") {
+    } else if (familyText.includes("Cyr Book") && (value.fontWeight as { text?: string })?.text === "19") {
       fontWeight = "FontWeight.Light"
     } else if (familyText.includes("Cyr Book")) {
       fontWeight = "FontWeight.Normal"
@@ -58,11 +65,38 @@ function resolveTypographyData(
         ? `${value.lineHeight.measure}.sp`
         : "TextUnit.Unspecified"
 
-    return { name, fontFamily, fontSize, letterSpacing, fontWeight, lineHeight }
+    const data: TypographyData = {
+      name,
+      fontFamily,
+      fontSize,
+      letterSpacing,
+      fontWeight,
+      lineHeight,
+    }
+    return data
   } catch (e) {
     console.error("Error processing typography token:", e)
     return null
   }
+}
+
+/**
+ * Converts Supernova fontFamily.text (e.g. "Google Sans Flex") to a Kotlin
+ * variable name (e.g. "googleSansFlex"). No suffix added—only what comes from the token.
+ */
+function fontFamilyTextToVariableName(text: string): string {
+  const parts = text
+    .trim()
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+  if (parts.length === 0) return "fontFamily"
+  return parts
+    .map((word, i) =>
+      i === 0
+        ? word.charAt(0).toLowerCase() + word.slice(1).toLowerCase()
+        : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    )
+    .join("")
 }
 
 const TYPOGRAPHY_COLLECTION = "Typography"
@@ -130,5 +164,9 @@ export function groupTypography(
     }
   }
 
-  return { keys: Array.from(keys), mobileMap, tabletMap }
+  return {
+    keys: Array.from(keys),
+    mobileMap,
+    tabletMap,
+  }
 }
