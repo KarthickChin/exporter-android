@@ -1,0 +1,79 @@
+[
+    {
+      "key": "composeColorsPath",
+      "type": "string",
+      "default": "./",
+      "title": "Compose Colors Path",
+      "description": "Output directory for ExportedColor.kt"
+    },
+    {
+      "key": "composeColorsFileName",
+      "type": "string",
+      "default": "ExportedColor.kt",
+      "title": "Compose Colors File Name",
+      "description": "Filename for the generated Compose color definitions"
+    },
+    {
+      "key": "storyColorsPath",
+      "type": "string",
+      "default": "./",
+      "title": "Story Colors Path",
+      "description": "Output directory for AppColors.kt"
+    },
+    {
+      "key": "storyColorsFileName",
+      "type": "string",
+      "default": "AppColors.kt",
+      "title": "Story Colors File Name",
+      "description": "Filename for the generated Storybook color data"
+    },
+    {
+      "key": "typographyPath",
+      "type": "string",
+      "default": "./",
+      "title": "Typography Path",
+      "description": "Output directory for Typography.kt"
+    },
+    {
+      "key": "typographyFileName",
+      "type": "string",
+      "default": "Typography.kt",
+      "title": "Typography File Name",
+      "description": "Filename for the generated typography definitions"
+    },
+    {
+      "key": "colorPackageName",
+      "type": "string",
+      "default": "com.mindvalley.uicomponents",
+      "title": "Color Package Name",
+      "description": "Kotlin package name for the Compose color file"
+    },
+    {
+      "key": "storyColorPackageName",
+      "type": "string",
+      "default": "com.mindvalley.component.demo.screens.colors",
+      "title": "Story Color Package Name",
+      "description": "Kotlin package name for the Storybook color data file"
+    },
+    {
+      "key": "typographyPackageName",
+      "type": "string",
+      "default": "com.mindvalley.uicomponents.compose",
+      "title": "Typography Package Name",
+      "description": "Kotlin package name for the typography file"
+    },
+    {
+      "key": "fontFamilyVariable",
+      "type": "string",
+      "default": "sharpGFontFamily",
+      "title": "Font Family Variable Name",
+      "description": "Kotlin variable name for the font family used in typography definitions"
+    },
+    {
+      "key": "generateStoryColors",
+      "type": "boolean",
+      "default": true,
+      "title": "Generate Story Colors",
+      "description": "Whether to generate the AppColors.kt file"
+    }
+]
