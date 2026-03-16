@@ -36,7 +36,7 @@ export function generateTypography(
       lines.push(`            fontFamily = ${mobile.fontFamily},`)
       lines.push(`            fontWeight = ${mobile.fontWeight},`)
       lines.push("            fontStyle = FontStyle.Normal,")
-      lines.push(`            lineHeight = ${mobile.lineHeight},`)
+      lines.push(`            lineHeight = ${mobile.lineHeight}`)
       lines.push("        )")
     } else {
       lines.push(`val Typography.${mobile.name}: TextStyle`)
@@ -49,7 +49,7 @@ export function generateTypography(
       lines.push(`                fontFamily = ${mobile.fontFamily},`)
       lines.push(`                fontWeight = ${mobile.fontWeight},`)
       lines.push("                fontStyle = FontStyle.Normal,")
-      lines.push(`                lineHeight = ${mobile.lineHeight},`)
+      lines.push(`                lineHeight = ${mobile.lineHeight}`)
       lines.push("            )")
       lines.push("        } else {")
       lines.push("            TextStyle(")
@@ -58,11 +58,11 @@ export function generateTypography(
       lines.push(`                fontFamily = ${tablet.fontFamily},`)
       lines.push(`                fontWeight = ${tablet.fontWeight},`)
       lines.push("                fontStyle = FontStyle.Normal,")
-      lines.push(`                lineHeight = ${tablet.lineHeight},`)
+      lines.push(`                lineHeight = ${tablet.lineHeight}`)
       lines.push("            )")
       lines.push("        }")
     }
   }
 
-  return lines.join("\n") + "\n"
+  return lines.join("\n")
 }
