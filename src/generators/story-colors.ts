@@ -36,7 +36,8 @@ export function generateStoryColors(
     lines.push(`            color = Color(${hexValue}),`)
     lines.push(`            name = "${camelName}",`)
     lines.push(`            code = "#${codeHex}"`)
-    lines.push("        ))")
+    lines.push("        )")
+    lines.push("    )")
   }
 
   lines.push("")
@@ -57,7 +58,8 @@ export function generateStoryColors(
     lines.push(`            color = Color(${hexValue}),`)
     lines.push(`            name = "${camelName}",`)
     lines.push(`            code = "#${codeHex}"`)
-    lines.push("        ))")
+    lines.push("        )")
+    lines.push("    )")
   }
 
   lines.push("")
@@ -78,7 +80,8 @@ export function generateStoryColors(
     lines.push(`            color = Color(${hexValue}),`)
     lines.push(`            name = "${camelName}",`)
     lines.push(`            code = "#${codeHex}"`)
-    lines.push("        ))")
+    lines.push("        )")
+    lines.push("    )")
   }
 
   lines.push("")
