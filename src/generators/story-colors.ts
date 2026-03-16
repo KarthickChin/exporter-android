@@ -18,7 +18,8 @@ export function generateStoryColors(
   lines.push("")
   lines.push("import androidx.compose.ui.graphics.Color")
   lines.push("")
-  lines.push("val appColors = mutableListOf<ColorData>().apply {")
+  lines.push("val appColors =")
+  lines.push("    mutableListOf<ColorData>().apply {")
 
   // Themed light colors
   for (const colorName of colorNames) {
@@ -31,13 +32,13 @@ export function generateStoryColors(
     const camelName = safeTokenName(toCamelCase(lightColor.name))
     const hexValue = toComposeColorHex(lightColor.hex)
     const codeHex = lightColor.hex.replace(/^#/, "").toUpperCase()
-    lines.push("    add(")
-    lines.push("        ColorData(")
-    lines.push(`            color = Color(${hexValue}),`)
-    lines.push(`            name = "${camelName}",`)
-    lines.push(`            code = "#${codeHex}"`)
+    lines.push("        add(")
+    lines.push("            ColorData(")
+    lines.push(`                color = Color(${hexValue}),`)
+    lines.push(`                name = "${camelName}",`)
+    lines.push(`                code = "#${codeHex}",`)
+    lines.push("            ),")
     lines.push("        )")
-    lines.push("    )")
   }
 
   lines.push("")
@@ -53,13 +54,13 @@ export function generateStoryColors(
     const camelName = safeTokenName(toCamelCase(darkColor.name))
     const hexValue = toComposeColorHex(darkColor.hex)
     const codeHex = darkColor.hex.replace(/^#/, "").toUpperCase()
-    lines.push("    add(")
-    lines.push("        ColorData(")
-    lines.push(`            color = Color(${hexValue}),`)
-    lines.push(`            name = "${camelName}",`)
-    lines.push(`            code = "#${codeHex}"`)
+    lines.push("        add(")
+    lines.push("            ColorData(")
+    lines.push(`                color = Color(${hexValue}),`)
+    lines.push(`                name = "${camelName}",`)
+    lines.push(`                code = "#${codeHex}",`)
+    lines.push("            ),")
     lines.push("        )")
-    lines.push("    )")
   }
 
   lines.push("")
@@ -75,17 +76,16 @@ export function generateStoryColors(
     const camelName = safeTokenName(toCamelCase(darkColor.name))
     const hexValue = toComposeColorHex(darkColor.hex)
     const codeHex = darkColor.hex.replace(/^#/, "").toUpperCase()
-    lines.push("    add(")
-    lines.push("        ColorData(")
-    lines.push(`            color = Color(${hexValue}),`)
-    lines.push(`            name = "${camelName}",`)
-    lines.push(`            code = "#${codeHex}"`)
+    lines.push("        add(")
+    lines.push("            ColorData(")
+    lines.push(`                color = Color(${hexValue}),`)
+    lines.push(`                name = "${camelName}",`)
+    lines.push(`                code = "#${codeHex}",`)
+    lines.push("            ),")
     lines.push("        )")
-    lines.push("    )")
   }
 
-  lines.push("")
-  lines.push("}")
+  lines.push("    }")
 
-  return lines.join("\n")
+  return lines.join("\n") + "\n"
 }
