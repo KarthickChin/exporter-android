@@ -28,6 +28,15 @@ export $(grep -v '^#' .env | xargs) && npm run export:eve  # Eve brand
 
 > Credentials live in `.env` (git-ignored). Copy the format from `exporter-ios/.env` if setting up fresh.
 
+```bash
+# Verify generated files pass ktlint before committing (install once: brew install ktlint)
+# The .editorconfig from mv-mobile-android-components must be present in the output dir
+cp /Users/justin/mv-mobile-android-components/.editorconfig .build/output-mv/.editorconfig
+ktlint ".build/output-mv/**/*.kt"
+```
+
+Always run this after `export:mv` and before committing. The `.editorconfig` from `mv-mobile-android-components` is critical — it sets `ij_kotlin_allow_trailing_comma_on_call_site = false` and `ktlint_code_style = android_studio`, which differ significantly from ktlint's defaults. Running ktlint without it will report false violations (e.g. demanding trailing commas that are actually banned). The generated files are linted by Danger on every PR to `mv-mobile-android-components` — ktlint failures surface as review warnings on that downstream PR.
+
 There is no test runner configured in this project.
 
 ## Architecture
