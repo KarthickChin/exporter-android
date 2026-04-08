@@ -44,11 +44,11 @@ class ColorObject {
       const name = makeColorName(color);
       let colorName = name;
       if (name.includes('GradientBase')) {
-        colorName = name.replace('GradientBase', colorStyle === ColorStylesEnum.EVE_COLOR_STYLES ? brand + 'GB' : "MV" + 'Gb');
+        colorName = name.replace('GradientBase', colorStyle === ColorStylesEnum.EVE_COLOR_STYLES ? brand + 'GB' : 'Gb');
       } else if (colorStyle === ColorStylesEnum.EVE_COLOR_STYLES) {
         colorName = brand + color.name;
       } else if (colorStyle === ColorStylesEnum.COLOR_STYLES) {
-        colorName = ColorObject.isiOSSystemColor(color.name) ? "mv" + color.name : color.name;
+        colorName = color.name;
       }
       //console.log("ColorObject: " + colorName);
       return new ColorObject(theme.name, color.value, colorStyle, colorName);
@@ -314,6 +314,120 @@ function getCurrentDate() {
   return date.toISOString().split("T")[0];
 }
 
+function logTypography(typoTokensTree, brandId) {
+  console.log("=== TYPO LOG START ===");
+  function traverseGroup(group) {
+    if (group.tokenIds && group.tokenIds.length > 0) {
+      for (const tokenId of group.tokenIds) {
+        console.log("Token ID found: " + tokenId);
+      }
+    }
+    if (group.subgroups) {
+      for (const sub of group.subgroups) {
+        traverseGroup(sub);
+      }
+    }
+  }
+  traverseGroup(typoTokensTree);
+  console.log("=== TYPO LOG END ===");
+  return "";
+}
+
+function logTypoToken(token) {
+  console.log("=== TYPO TOKEN ===");
+  console.log("Name: " + token.name);
+  console.log("Value: " + objectToPrettyJson(token.value));
+  console.log("Properties: " + objectToPrettyJson(token.properties));
+  console.log("PropertyValues: " + objectToPrettyJson(token.propertyValues));
+  if (token.origin) {
+    console.log("Origin: " + token.origin.name);
+  }
+  console.log("==================");
+  return "";
+}
+
+/**
+ * Maps a font subfamily/weight value to Android FontWeight name.
+ *
+ * @param {string} subfamily - The font subfamily value (e.g., "400", "500", "600")
+ * @returns {string} The Android FontWeight constant name
+ */
+function mapFontWeight(subfamily) {
+  const weightMap = {
+    "100": "Thin",
+    "200": "ExtraLight",
+    "300": "Light",
+    "400": "Normal",
+    "500": "Medium",
+    "600": "SemiBold",
+    "700": "Bold",
+    "800": "ExtraBold",
+    "900": "Black"
+  };
+  return weightMap[subfamily] || "Normal";
+}
+
+/**
+ * Formats a color hex value as uppercase Android Compose Color value (AARRGGBB).
+ * Input hex is RRGGBBAA format from Supernova.
+ *
+ * @param {Object} color - Color object with hex property
+ * @returns {string} Formatted color value like "0XFFRRGGBB"
+ */
+function formatUppercaseComposeColor(color) {
+  const hex = color.hex;
+  const alpha = hex.substr(6, 2).toUpperCase();
+  const red = hex.substr(0, 2).toUpperCase();
+  const green = hex.substr(2, 2).toUpperCase();
+  const blue = hex.substr(4, 2).toUpperCase();
+  return "0X" + alpha + red + green + blue;
+}
+
+/**
+ * Formats a color hex value as RRGGBBAA hex code string.
+ * Input hex is RRGGBBAA format from Supernova.
+ *
+ * @param {Object} color - Color object with hex property
+ * @returns {string} Formatted code like "#RRGGBBAA"
+ */
+function formatAppColorCode(color) {
+  return "#" + color.hex.toUpperCase();
+}
+
+/**
+ * Rounds a measure value to 2 decimal places to avoid floating point artifacts.
+ * Returns 0 if value is null or undefined.
+ *
+ * @param {number} value - The measure value
+ * @returns {number} Rounded value
+ */
+function roundMeasure(value) {
+  if (value === null || value === undefined) {
+    return 0;
+  }
+  return Math.round(value * 100) / 100;
+}
+
+/**
+ * Safely gets a measure value from a typography property that may be null.
+ *
+ * @param {Object} prop - The property object (e.g., typoToken.value.lineHeight)
+ * @returns {number} The measure value or 0
+ */
+function safeMeasure(prop) {
+  if (!prop || prop.measure === null || prop.measure === undefined) {
+    return 0;
+  }
+  return Math.round(prop.measure * 100) / 100;
+}
+
+Pulsar.registerFunction("mapFontWeight", mapFontWeight)
+Pulsar.registerFunction("formatUppercaseComposeColor", formatUppercaseComposeColor)
+Pulsar.registerFunction("formatAppColorCode", formatAppColorCode)
+Pulsar.registerFunction("roundMeasure", roundMeasure)
+Pulsar.registerFunction("safeMeasure", safeMeasure)
+Pulsar.registerFunction("logTypography", logTypography)
+Pulsar.registerFunction("logTypoToken", logTypoToken)
 Pulsar.registerFunction("isColorStylesToken", isColorStylesToken)
 Pulsar.registerFunction("groupTokensByName", groupTokensByName)
 Pulsar.registerFunction("getColorsFor", getColorsFor)

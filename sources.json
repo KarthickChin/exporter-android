@@ -1,5 +1,11 @@
 {
     "colors.pr": {
         "targets_ci": true
+    },
+    "compose_typography.pr": {
+        "targets_ci": true
+    },
+    "app_colors.pr": {
+        "targets_ci": true
     }
 }

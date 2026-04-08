@@ -1,0 +1,34 @@
+package com.mindvalley.uicomponents.compose
+
+import androidx.compose.material3.Typography
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+
+{[ const brands = ds.allBrands() /]}
+{[ for brand in brands ]}
+{[ const typoTokensTree = ds.tokenGroupTreeByType("Typography", brand.id) /]}
+{[ traverse typoTokensTree property subgroups into typoGroup ]}
+{[ const typoTokens = ds.tokensByGroupId(typoGroup.id) /]}
+{[ for typoToken in typoTokens ]}
+{[ const tokenName = typoToken.name.camelcased(false) /]}
+{[ const fontWeight = mapFontWeight(typoToken.value.font.subfamily) /]}
+{[ const fontSize = safeMeasure(typoToken.value.fontSize) /]}
+{[ const letterSpacing = safeMeasure(typoToken.value.letterSpacing) /]}
+{[ const lineHeight = safeMeasure(typoToken.value.lineHeight) /]}
+val Typography.{{ tokenName }}: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontSize = {{ fontSize }}.sp,
+        letterSpacing = {{ letterSpacing }}.sp,
+        fontFamily = googleSansFlex,
+        fontWeight = FontWeight.{{ fontWeight }},
+        fontStyle = FontStyle.Normal,
+        lineHeight = {{ lineHeight }}.sp
+    )
+
+{[/]}
+{[/]}
+{[/]}
