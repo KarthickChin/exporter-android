@@ -55,11 +55,25 @@ function resolveTypographyData(
 
     const fontFamily = fontFamilyVariable
 
-    const weightText = (
-      (value.fontWeight as { text?: string })?.text ??
-      (typeof value.fontWeight === "string" ? value.fontWeight : "")
+    // Read font family text from Supernova to derive font weight
+    const familyText = (
+      (value.fontFamily as { text?: string; value?: string } | undefined)?.text ??
+      (value.fontFamily as { text?: string; value?: string } | undefined)?.value ??
+      (typeof value.fontFamily === "string" ? value.fontFamily : "")
     ).trim()
-    const fontWeight = mapFontWeight(weightText)
+
+    let fontWeight = "FontWeight.Normal"
+    if (familyText.includes("Semibold")) {
+      fontWeight = "FontWeight.SemiBold"
+    } else if (familyText.includes("Medium")) {
+      fontWeight = "FontWeight.Medium"
+    } else if (familyText.includes("Book")) {
+      const weightText = (
+        (value.fontWeight as { text?: string })?.text ??
+        (typeof value.fontWeight === "string" ? value.fontWeight : "")
+      ).trim()
+      fontWeight = weightText === "19" ? "FontWeight.Light" : "FontWeight.Normal"
+    }
 
     const letterSpacing = `${value.letterSpacing.measure}.sp`
     const fontSize = `${value.fontSize.measure}.sp`
