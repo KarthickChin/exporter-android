@@ -107,6 +107,7 @@ export function groupTokensByTheme(
       const colorStyle = getColorStyle(token)
       if (!colorStyle) continue
 
+      const colorToken = token as ColorToken
       const hex = colorValueToHex8(colorToken)
       const name = buildColorName(token, colorStyle, brand)
 
