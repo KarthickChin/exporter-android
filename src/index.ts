@@ -37,7 +37,7 @@ Pulsar.export(
     }
 
     const fontFamilyVariable =
-      exportConfiguration.fontFamilyVariable ?? "sharpGFontFamily"
+      exportConfiguration.fontFamilyVariable ?? "googleSansFlex"
     const brandId = context.brandId ?? brands[0]?.id ?? ""
     const typoResult = groupTypography(
       themes,

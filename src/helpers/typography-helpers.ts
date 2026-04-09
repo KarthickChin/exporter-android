@@ -53,15 +53,7 @@ function resolveTypographyData(
       )
       .join("") || "unnamed"
 
-    // Use the token's fontFamily from Supernova (support .text, .value, or string), converted to a Kotlin variable name.
-    const familyText = (
-      (value.fontFamily as { text?: string; value?: string } | undefined)?.text ??
-      (value.fontFamily as { text?: string; value?: string } | undefined)?.value ??
-      (typeof value.fontFamily === "string" ? value.fontFamily : "")
-    ).trim()
-    const fontFamily = familyText
-      ? fontFamilyTextToVariableName(familyText)
-      : fontFamilyVariable
+    const fontFamily = fontFamilyVariable
 
     const weightText = (
       (value.fontWeight as { text?: string })?.text ??
