@@ -67,7 +67,10 @@ function resolveTypographyData(
 ): TypographyData | null {
   try {
     const value = token.value
-    console.log(`[TYPO_DEBUG] token.name="${token.name}" brandId="${token.brandId}" parentGroupId="${token.parentGroupId}" fontFamily=${JSON.stringify(value.fontFamily)} fontWeight=${JSON.stringify(value.fontWeight)} fontSize=${JSON.stringify(value.fontSize)} lineHeight=${JSON.stringify(value.lineHeight)}`)
+    const familyText = (value.fontFamily as any)?.text ?? ""
+    if (familyText.includes("Google Sans")) {
+      console.log(`[TYPO_GOOGLE] token.name="${token.name}" brandId="${token.brandId}" parentGroupId="${token.parentGroupId}" fontWeight=${JSON.stringify(value.fontWeight)} fontSize=${JSON.stringify(value.fontSize)} letterSpacing=${JSON.stringify(value.letterSpacing)} lineHeight=${JSON.stringify(value.lineHeight)}`)
+    }
     const name = token.name
       .split(/[^a-zA-Z0-9]+/)
       .filter(Boolean)
