@@ -32,6 +32,9 @@ const FONT_WEIGHT_MAP: Record<string, string> = {
   "700": "Bold",
   "800": "ExtraBold",
   "900": "Black",
+  // Supernova non-standard weights (Google Sans Flex tokens)
+  "19": "Light",
+  "20": "Medium",
   // Text-based weights (lowercase for case-insensitive lookup)
   "thin": "Thin",
   "extralight": "ExtraLight",
