@@ -38,10 +38,11 @@ Pulsar.export(
 
     const fontFamilyVariable =
       exportConfiguration.fontFamilyVariable ?? "sharpGFontFamily"
+    const brandId = context.brandId ?? brands[0]?.id ?? ""
     const typoResult = groupTypography(
       themes,
       allTokens,
-      context.brandId ?? "",
+      brandId,
       tokenGroups,
       fontFamilyVariable,
       (all, tokens, th) => sdk.tokens.computeTokensByApplyingThemes(all, tokens, th)

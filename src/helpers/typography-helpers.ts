@@ -110,16 +110,8 @@ function fontFamilyTextToVariableName(text: string): string {
     .join("")
 }
 
-const TYPOGRAPHY_COLLECTION = "Typography"
-
 function isInTypographyGroup(token: Token, tokenGroups: TokenGroup[]): boolean {
-  const group = tokenGroups.find((g) => g.id === token.parentGroupId)
-  if (!group) return false
-  const fullPath = [...(group.path || []), group.name].join("/")
-  return (
-    fullPath === TYPOGRAPHY_COLLECTION ||
-    fullPath.startsWith(TYPOGRAPHY_COLLECTION + "/")
-  )
+  return tokenGroups.some((g) => g.id === token.parentGroupId)
 }
 
 export function groupTypography(
