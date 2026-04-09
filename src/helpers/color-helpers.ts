@@ -105,11 +105,6 @@ export function groupTokensByTheme(
       if (token.tokenType !== TokenType.color) continue
 
       const colorStyle = getColorStyle(token)
-      const colorToken = token as ColorToken
-      const { r, g, b } = colorToken.value.color
-      const opacity = colorToken.value.opacity?.measure ?? 1
-      console.log(`[COLOR_DEBUG] theme="${themeName}" brand="${brand}" token.name="${token.name}" origin="${token.origin?.name}" colorStyle="${colorStyle}" r=${r} g=${g} b=${b} opacity=${opacity} propertyValues=${JSON.stringify(token.propertyValues)}`)
-
       if (!colorStyle) continue
 
       const hex = colorValueToHex8(colorToken)
