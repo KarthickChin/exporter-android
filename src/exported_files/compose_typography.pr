@@ -6,18 +6,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-
 {[ const brands = ds.allBrands() /]}
-{[ for brand in brands ]}
+{[ const brand = brands[0] /]}
 {[ const typoTokensTree = ds.tokenGroupTreeByType("Typography", brand.id) /]}
 {[ traverse typoTokensTree property subgroups into typoGroup ]}
 {[ const typoTokens = ds.tokensByGroupId(typoGroup.id) /]}
 {[ for typoToken in typoTokens ]}
 {[ const tokenName = typoToken.name.camelcased(false) /]}
+{[ if isNewTypoToken(tokenName) ]}
 {[ const fontWeight = mapFontWeight(typoToken.value.font.subfamily) /]}
 {[ const fontSize = safeMeasure(typoToken.value.fontSize) /]}
 {[ const letterSpacing = safeMeasure(typoToken.value.letterSpacing) /]}
 {[ const lineHeight = safeMeasure(typoToken.value.lineHeight) /]}
+
 val Typography.{{ tokenName }}: TextStyle
     @Composable
     get() = TextStyle(

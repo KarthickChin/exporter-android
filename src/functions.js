@@ -346,6 +346,23 @@ function logTypoToken(token) {
   return "";
 }
 
+const seenTypoTokens = {};
+
+/**
+ * Checks if a typography token name has already been processed.
+ * Returns true if NOT seen (should be output), false if already seen (skip).
+ *
+ * @param {string} name - The token name
+ * @returns {boolean}
+ */
+function isNewTypoToken(name) {
+  if (seenTypoTokens[name]) {
+    return false;
+  }
+  seenTypoTokens[name] = true;
+  return true;
+}
+
 /**
  * Maps a font subfamily/weight value to Android FontWeight name.
  *
@@ -421,6 +438,7 @@ function safeMeasure(prop) {
   return Math.round(prop.measure * 100) / 100;
 }
 
+Pulsar.registerFunction("isNewTypoToken", isNewTypoToken)
 Pulsar.registerFunction("mapFontWeight", mapFontWeight)
 Pulsar.registerFunction("formatUppercaseComposeColor", formatUppercaseComposeColor)
 Pulsar.registerFunction("formatAppColorCode", formatAppColorCode)

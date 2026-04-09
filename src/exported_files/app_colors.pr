@@ -1,7 +1,6 @@
 package com.mindvalley.component.demo.screens.colors
 
 import androidx.compose.ui.graphics.Color
-
 {[ const brands = ds.allBrands() /]}
 {[ for brand in brands ]}
 {[ const themesData = ds.allThemes(brand.id) /]}
@@ -10,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 {[/]}
 {[ const groupedTokenData = getColorMap() /]}
 {[ const colorNames = groupedTokenData.keys() /]}
+
 val appColors =
     mutableListOf<ColorData>().apply {
 {[ for colorName in colorNames ]}
