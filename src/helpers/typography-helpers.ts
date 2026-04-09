@@ -136,8 +136,6 @@ export function groupTypography(
 
   for (const token of sourceTokens) {
     if (token.tokenType !== TokenType.typography) continue
-    if (token.brandId !== brandId) continue
-    if (!isInTypographyGroup(token, tokenGroups)) continue
     const data = resolveTypographyData(token as TypographyToken, fontFamilyVariable)
     if (!data) continue
     if (keys.has(data.name)) continue
@@ -149,8 +147,6 @@ export function groupTypography(
     const tabletResolved = computeTokensByTheme(allTokens, allTokens, [tabletTheme])
     for (const token of tabletResolved) {
       if (token.tokenType !== TokenType.typography) continue
-      if (token.brandId !== brandId) continue
-      if (!isInTypographyGroup(token, tokenGroups)) continue
       const data = resolveTypographyData(token as TypographyToken, fontFamilyVariable)
       if (!data) continue
       const mobile = mobileMap[data.name]
