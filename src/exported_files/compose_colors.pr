@@ -1,0 +1,163 @@
+package com.mindvalley.uicomponents
+
+import androidx.compose.material3.ColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+{[ const brands = ds.allBrands() /]}
+{[ for brand in brands ]}
+{[ const themesData = ds.allThemes(brand.id) /]}
+{[ const colorTokensTree = ds.tokenGroupTreeByType("Color", brand.id) /]}
+{{ groupTokensByName(themesData, brand.name); }}
+{[/]}
+{[ const groupedTokenData = getColorMap() /]}
+{[ const colorNames = groupedTokenData.keys() /]}
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let lightColor = getColorsFor(colorName, "Light") /]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if isColorThemed(colorName) ]}
+{[ const colorPropertyName = lightColor.name.camelcased(false) /]}
+
+val ColorScheme.{{ colorPropertyName }}
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            Color({[ inject "export_compose_color_value" context darkColor.color /]})
+        } else {
+            Color({[ inject "export_compose_color_value" context lightColor.color /]})
+        }
+
+{[/]}
+{[/]}
+{[/]}
+val ColorScheme.pandaFaint
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            UnThemedColors.Faint
+        } else {
+            Color(0x14ffffff)
+        }
+
+val ColorScheme.pandaSubtle
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            UnThemedColors.Subtle
+        } else {
+            Color(0x2effffff)
+        }
+
+val ColorScheme.pandaMild
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            UnThemedColors.GbBlack24
+        } else {
+            UnThemedColors.GbWhite24
+        }
+
+val ColorScheme.pandaModerate
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            UnThemedColors.Moderate
+        } else {
+            UnThemedColors.GbWhite50
+        }
+
+val ColorScheme.pandaStrong
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            UnThemedColors.Strong
+        } else {
+            Color(0xb2ffffff)
+        }
+
+val ColorScheme.pandaIntense
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            UnThemedColors.GbBlack80
+        } else {
+            Color(0xe5ffffff)
+        }
+
+val ColorScheme.zeebraFaint
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            Color(0x14ffffff)
+        } else {
+            UnThemedColors.Faint
+        }
+
+val ColorScheme.zeebraSubtle
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            Color(0x2effffff)
+        } else {
+            UnThemedColors.Subtle
+        }
+
+val ColorScheme.zeebraMild
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            UnThemedColors.GbWhite24
+        } else {
+            UnThemedColors.GbBlack24
+        }
+
+val ColorScheme.zeebraModerate
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            UnThemedColors.GbWhite50
+        } else {
+            UnThemedColors.Moderate
+        }
+
+val ColorScheme.zeebraStrong
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            Color(0xb2ffffff)
+        } else {
+            UnThemedColors.Strong
+        }
+
+val ColorScheme.zeebraIntense
+    @Composable get() =
+        if (LocalIsDarkTheme.current) {
+            Color(0xe5ffffff)
+        } else {
+            UnThemedColors.GbBlack80
+        }
+
+object LightColors {
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let lightColor = getColorsFor(colorName, "Light") /]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if isColorThemed(colorName) ]}
+    val {[ inject "export_camelcased_token_name" context lightColor.name /]} = Color({[ inject "export_compose_color_value" context lightColor.color /]})
+{[/]}
+{[/]}
+{[/]}
+
+}
+
+object DarkColors {
+{* Generete dark colors as static computed variables *}
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if isColorThemed(colorName) ]}
+   val {[ inject "export_camelcased_token_name" context darkColor.name /]} = Color({[ inject "export_compose_color_value" context darkColor.color /]})
+{[/]}
+{[/]}
+{[/]}
+}
+
+object UnThemedColors {
+{* Generete dark colors as static computed variables *}
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if !isColorThemed(colorName) ]}
+   val {[ inject "export_camelcased_token_name" context darkColor.name /]} = Color({[ inject "export_compose_color_value" context darkColor.color /]})
+{[/]}
+{[/]}
+{[/]}
+}

@@ -1,0 +1,61 @@
+package com.mindvalley.component.demo.screens.colors
+
+import androidx.compose.ui.graphics.Color
+{[ const brands = ds.allBrands() /]}
+{[ for brand in brands ]}
+{[ const themesData = ds.allThemes(brand.id) /]}
+{[ const colorTokensTree = ds.tokenGroupTreeByType("Color", brand.id) /]}
+{{ groupTokensByName(themesData, brand.name); }}
+{[/]}
+{[ const groupedTokenData = getColorMap() /]}
+{[ const colorNames = groupedTokenData.keys() /]}
+
+val appColors =
+    mutableListOf<ColorData>().apply {
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let lightColor = getColorsFor(colorName, "Light") /]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if isColorThemed(colorName) ]}
+{[ const lightColorName = lightColor.name.camelcased(false) /]}
+        add(
+            ColorData(
+                color = Color({{ formatUppercaseComposeColor(lightColor.color) }}),
+                name = "{{ lightColorName }}",
+                code = "{{ formatAppColorCode(lightColor.color) }}"
+            )
+        )
+{[/]}
+{[/]}
+{[/]}
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if isColorThemed(colorName) ]}
+{[ const darkColorName = darkColor.name.camelcased(false) /]}
+        add(
+            ColorData(
+                color = Color({{ formatUppercaseComposeColor(darkColor.color) }}),
+                name = "{{ darkColorName }}",
+                code = "{{ formatAppColorCode(darkColor.color) }}"
+            )
+        )
+{[/]}
+{[/]}
+{[/]}
+{[ for colorName in colorNames ]}
+{[ if isColorStylesToken(colorName) ]}
+{[ let darkColor = getColorsFor(colorName, "Dark") /]}
+{[ if !isColorThemed(colorName) ]}
+{[ const unthemedName = darkColor.name.camelcased(false) /]}
+        add(
+            ColorData(
+                color = Color({{ formatUppercaseComposeColor(darkColor.color) }}),
+                name = "{{ unthemedName }}",
+                code = "{{ formatAppColorCode(darkColor.color) }}"
+            )
+        )
+{[/]}
+{[/]}
+{[/]}
+    }
