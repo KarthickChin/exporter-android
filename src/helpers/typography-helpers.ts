@@ -21,6 +21,22 @@ export interface TypographyMaps {
   tabletMap: Record<string, TypographyData>
 }
 
+const FONT_WEIGHT_MAP: Record<string, string> = {
+  "100": "Thin",
+  "200": "ExtraLight",
+  "300": "Light",
+  "400": "Normal",
+  "500": "Medium",
+  "600": "SemiBold",
+  "700": "Bold",
+  "800": "ExtraBold",
+  "900": "Black",
+}
+
+function mapFontWeight(subfamily: string): string {
+  return `FontWeight.${FONT_WEIGHT_MAP[subfamily] ?? "Normal"}`
+}
+
 function resolveTypographyData(
   token: TypographyToken,
   fontFamilyVariable: string
@@ -47,16 +63,11 @@ function resolveTypographyData(
       ? fontFamilyTextToVariableName(familyText)
       : fontFamilyVariable
 
-    let fontWeight = "FontWeight.Normal"
-    if (familyText.includes("Cyr Semibold")) {
-      fontWeight = "FontWeight.SemiBold"
-    } else if (familyText.includes("Cyr Medium")) {
-      fontWeight = "FontWeight.Medium"
-    } else if (familyText.includes("Cyr Book") && (value.fontWeight as { text?: string })?.text === "19") {
-      fontWeight = "FontWeight.Light"
-    } else if (familyText.includes("Cyr Book")) {
-      fontWeight = "FontWeight.Normal"
-    }
+    const weightText = (
+      (value.fontWeight as { text?: string })?.text ??
+      (typeof value.fontWeight === "string" ? value.fontWeight : "")
+    ).trim()
+    const fontWeight = mapFontWeight(weightText)
 
     const letterSpacing = `${value.letterSpacing.measure}.sp`
     const fontSize = `${value.fontSize.measure}.sp`
@@ -127,18 +138,17 @@ export function groupTypography(
   const mobileTheme = brandThemes.find((t) => t.name.trim() === "Mobile")
   const tabletTheme = brandThemes.find((t) => t.name.trim() === "Tablet")
 
-  if (!mobileTheme) {
-    return { keys: [], mobileMap, tabletMap }
-  }
+  const sourceTokens = mobileTheme
+    ? computeTokensByTheme(allTokens, allTokens, [mobileTheme])
+    : allTokens
 
-  const mobileResolved = computeTokensByTheme(allTokens, allTokens, [mobileTheme])
-
-  for (const token of mobileResolved) {
+  for (const token of sourceTokens) {
     if (token.tokenType !== TokenType.typography) continue
     if (token.brandId !== brandId) continue
     if (!isInTypographyGroup(token, tokenGroups)) continue
     const data = resolveTypographyData(token as TypographyToken, fontFamilyVariable)
     if (!data) continue
+    if (keys.has(data.name)) continue
     keys.add(data.name)
     mobileMap[data.name] = data
   }
