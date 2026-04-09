@@ -22,6 +22,7 @@ export interface TypographyMaps {
 }
 
 const FONT_WEIGHT_MAP: Record<string, string> = {
+  // Numeric weights
   "100": "Thin",
   "200": "ExtraLight",
   "300": "Light",
@@ -31,10 +32,30 @@ const FONT_WEIGHT_MAP: Record<string, string> = {
   "700": "Bold",
   "800": "ExtraBold",
   "900": "Black",
+  // Text-based weights (lowercase for case-insensitive lookup)
+  "thin": "Thin",
+  "extralight": "ExtraLight",
+  "extra-light": "ExtraLight",
+  "ultralight": "ExtraLight",
+  "light": "Light",
+  "normal": "Normal",
+  "regular": "Normal",
+  "book": "Normal",
+  "medium": "Medium",
+  "semibold": "SemiBold",
+  "semi-bold": "SemiBold",
+  "demibold": "SemiBold",
+  "bold": "Bold",
+  "extrabold": "ExtraBold",
+  "extra-bold": "ExtraBold",
+  "ultrabold": "ExtraBold",
+  "black": "Black",
+  "heavy": "Black",
 }
 
-function mapFontWeight(subfamily: string): string {
-  return `FontWeight.${FONT_WEIGHT_MAP[subfamily] ?? "Normal"}`
+function mapFontWeight(weightText: string): string {
+  const key = weightText.toLowerCase().trim()
+  return `FontWeight.${FONT_WEIGHT_MAP[key] ?? "Normal"}`
 }
 
 function resolveTypographyData(
@@ -54,26 +75,7 @@ function resolveTypographyData(
       .join("") || "unnamed"
 
     const fontFamily = fontFamilyVariable
-
-    // Read font family text from Supernova to derive font weight
-    const familyText = (
-      (value.fontFamily as { text?: string; value?: string } | undefined)?.text ??
-      (value.fontFamily as { text?: string; value?: string } | undefined)?.value ??
-      (typeof value.fontFamily === "string" ? value.fontFamily : "")
-    ).trim()
-
-    let fontWeight = "FontWeight.Normal"
-    if (familyText.includes("Semibold")) {
-      fontWeight = "FontWeight.SemiBold"
-    } else if (familyText.includes("Medium")) {
-      fontWeight = "FontWeight.Medium"
-    } else if (familyText.includes("Book")) {
-      const weightText = (
-        (value.fontWeight as { text?: string })?.text ??
-        (typeof value.fontWeight === "string" ? value.fontWeight : "")
-      ).trim()
-      fontWeight = weightText === "19" ? "FontWeight.Light" : "FontWeight.Normal"
-    }
+    const fontWeight = mapFontWeight(value.fontWeight.text)
 
     const letterSpacing = `${value.letterSpacing.measure}.sp`
     const fontSize = `${value.fontSize.measure}.sp`
@@ -95,25 +97,6 @@ function resolveTypographyData(
     console.error("Error processing typography token:", e)
     return null
   }
-}
-
-/**
- * Converts Supernova fontFamily.text (e.g. "Google Sans Flex") to a Kotlin
- * variable name (e.g. "googleSansFlex"). No suffix added—only what comes from the token.
- */
-function fontFamilyTextToVariableName(text: string): string {
-  const parts = text
-    .trim()
-    .split(/[^a-zA-Z0-9]+/)
-    .filter(Boolean)
-  if (parts.length === 0) return "fontFamily"
-  return parts
-    .map((word, i) =>
-      i === 0
-        ? word.charAt(0).toLowerCase() + word.slice(1).toLowerCase()
-        : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-    )
-    .join("")
 }
 
 function isInTypographyGroup(token: Token, tokenGroups: TokenGroup[]): boolean {
