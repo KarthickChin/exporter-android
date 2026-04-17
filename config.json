@@ -23,7 +23,7 @@
     {
       "key": "fontFamilyVariable",
       "type": "string",
-      "default": "sharpGFontFamily",
+      "default": "googleSansFlex",
       "title": "Font Family Variable Name",
       "description": "Kotlin variable name for the font family used in typography definitions"
     },

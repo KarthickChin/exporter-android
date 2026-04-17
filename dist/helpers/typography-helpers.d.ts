@@ -6,6 +6,7 @@ export interface TypographyData {
     letterSpacing: string;
     fontWeight: string;
     lineHeight: string;
+    sourceFontFamily?: string;
 }
 export interface TypographyMaps {
     keys: string[];
