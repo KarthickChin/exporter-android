@@ -4,6 +4,7 @@ import {
   TokenTheme,
   TokenType,
   TypographyToken,
+  FontWeightToken,
 } from "@supernovaio/sdk-exporters"
 
 export interface TypographyData {
@@ -21,9 +22,37 @@ export interface TypographyMaps {
   tabletMap: Record<string, TypographyData>
 }
 
+function resolveFontWeight(fontWeightTokenName: string, fontWeightText: string, familyText: string): string {
+  const normalized = fontWeightTokenName.trim().toLowerCase().replace(/[\s-]+/g, "")
+
+  // Standard CSS weight names
+  if (normalized === "semibold" || normalized === "600") return "FontWeight.SemiBold"
+  if (normalized === "medium" || normalized === "500") return "FontWeight.Medium"
+  if (normalized === "bold" || normalized === "700") return "FontWeight.Bold"
+  if (normalized === "extrabold" || normalized === "800") return "FontWeight.ExtraBold"
+  if (normalized === "light" || normalized === "300") return "FontWeight.Light"
+  if (normalized === "thin" || normalized === "100") return "FontWeight.Thin"
+  if (normalized === "extralight" || normalized === "200") return "FontWeight.ExtraLight"
+  if (normalized === "black" || normalized === "900") return "FontWeight.Black"
+  if (normalized === "regular" || normalized === "normal" || normalized === "400") return "FontWeight.Normal"
+
+  // Mindvalley semantic weight token names (used by Supernova design system)
+  if (normalized === "title") return "FontWeight.SemiBold"
+  if (normalized === "headline") return "FontWeight.Medium"
+  if (normalized === "body") return "FontWeight.Normal"
+
+  // Legacy Sharp Grotesk inference (font weight was encoded in the family name)
+  if (familyText.includes("Cyr Semibold")) return "FontWeight.SemiBold"
+  if (familyText.includes("Cyr Medium")) return "FontWeight.Medium"
+  if (familyText.includes("Cyr Book") && fontWeightText === "19") return "FontWeight.Light"
+
+  return "FontWeight.Normal"
+}
+
 function resolveTypographyData(
   token: TypographyToken,
-  fontFamilyVariable: string
+  fontFamilyVariable: string,
+  allTokens: Token[]
 ): TypographyData | null {
   try {
     const value = token.value
@@ -47,16 +76,12 @@ function resolveTypographyData(
       ? fontFamilyTextToVariableName(familyText)
       : fontFamilyVariable
 
-    let fontWeight = "FontWeight.Normal"
-    if (familyText.includes("Cyr Semibold")) {
-      fontWeight = "FontWeight.SemiBold"
-    } else if (familyText.includes("Cyr Medium")) {
-      fontWeight = "FontWeight.Medium"
-    } else if (familyText.includes("Cyr Book") && (value.fontWeight as { text?: string })?.text === "19") {
-      fontWeight = "FontWeight.Light"
-    } else if (familyText.includes("Cyr Book")) {
-      fontWeight = "FontWeight.Normal"
-    }
+    const fontWeightText = (value.fontWeight as { text?: string })?.text ?? ""
+    const fontWeightRefId = (value.fontWeight as { referencedTokenId?: string | null })?.referencedTokenId
+    const fontWeightTokenName = fontWeightRefId
+      ? (allTokens.find((t) => t.id === fontWeightRefId) as FontWeightToken | undefined)?.name ?? ""
+      : ""
+    const fontWeight = resolveFontWeight(fontWeightTokenName, fontWeightText, familyText)
 
     const letterSpacing = `${value.letterSpacing.measure}.sp`
     const fontSize = `${value.fontSize.measure}.sp`
@@ -137,7 +162,7 @@ export function groupTypography(
     if (token.tokenType !== TokenType.typography) continue
     if (token.brandId !== brandId) continue
     if (!isInTypographyGroup(token, tokenGroups)) continue
-    const data = resolveTypographyData(token as TypographyToken, fontFamilyVariable)
+    const data = resolveTypographyData(token as TypographyToken, fontFamilyVariable, allTokens)
     if (!data) continue
     keys.add(data.name)
     mobileMap[data.name] = data
@@ -149,7 +174,7 @@ export function groupTypography(
       if (token.tokenType !== TokenType.typography) continue
       if (token.brandId !== brandId) continue
       if (!isInTypographyGroup(token, tokenGroups)) continue
-      const data = resolveTypographyData(token as TypographyToken, fontFamilyVariable)
+      const data = resolveTypographyData(token as TypographyToken, fontFamilyVariable, allTokens)
       if (!data) continue
       const mobile = mobileMap[data.name]
       if (!mobile) continue
